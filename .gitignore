@@ -1,0 +1,18 @@
+# Локальные зависимости ARM64 и пакеты
+site-packages/
+*.whl
+
+# Собранные релизные архивы и временная папка сборки
+build/
+*.muxapp
+
+# Логи и сохранённое состояние приложения
+*.log
+alexpdf_state.json
+
+# Кэш Python и системные файлы
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+Thumbs.db

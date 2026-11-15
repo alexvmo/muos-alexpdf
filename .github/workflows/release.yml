@@ -1,0 +1,49 @@
+name: Build and Release AlexPDF (.muxapp)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      python_version:
+        description: 'Версия Python на консоли (3.11 или 3.12)'
+        required: true
+        default: '3.11'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Клонирование репозитория
+        uses: actions/checkout@v4
+
+      - name: Настройка Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ github.event.inputs.python_version || '3.11' }}
+
+      - name: Установка утилит сборки
+        run: sudo apt-get update && sudo apt-get install -y zip
+
+      - name: Сборка пакета AlexPDF.muxapp
+        run: |
+          chmod +x build.sh
+          ./build.sh "${{ github.event.inputs.python_version || '3.11' }}"
+
+      - name: Загрузка артефакта сборки
+        uses: actions/upload-artifact@v4
+        with:
+          name: AlexPDF-muxapp
+          path: AlexPDF.muxapp
+
+      - name: Публикация GitHub Release (при пуше тега v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: AlexPDF.muxapp
+          generate_release_notes: true
