@@ -1,5 +1,5 @@
 #!/bin/sh
-# HELP: AlexPDF — программа для чтения PDF-документов на консоли
+# HELP: AlexPDF — программа для чтения PDF-документов на консоли muOS
 # ICON: alexpdf
 # GRID: AlexPDF
 
